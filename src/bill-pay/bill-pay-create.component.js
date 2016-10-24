@@ -10,19 +10,35 @@ const nomes =[
 
 window.billPayCreateComponent = Vue.extend({
     template:`
-        <form name="" action="">
-            <!-- USANDO O TWO-WEY DATA BIND ATRAVES DA DIRETIVA "v-model" O DADOS É ALTERADO DE FORMA BILATERAL -->
-            <label>Vencimento</label><br>
-            <input type="text" v-model="bill.date_due | dateFormat"><br>
-            <label>Conta</label><br>
-            <select name="" id="" v-model="bill.name">
-                <!-- USANDO O PROPERT BINDING ":value" PARA LIGAR MEU DADO AO MODEL -->
-                <option v-for="o in names" :value="o">{{ o }}</option>
-            </select><br>
-            <label>Valor</label><br>
-            <input type="text" v-model="bill.value | numberFormat"><br><br>
-            <button @click.prevent="submit">OK</button>
-        </form>
+        <div class="container">
+            <div class="card-panel">
+                 <form name="" action="">
+                   
+                    <div class="row">
+                          <label>Vencimento</label>
+                          <input type="text" class="datepicker" v-model="bill.date_due | dateFormat">
+                    </div>
+                    <div class="row">
+     
+                            <label>Conta</label>
+                            <select id="name" v-model="bill.name" class="browser-default">
+                                <option valuue="" disabled selected>Informe uma conta</option>
+                                <option v-for="o in names" :value="o">{{ o }}</option>
+                            </select>
+
+                    </div>
+                    <div class="row">
+                            <label>Valor</label>
+                            <input placeholder="0.00" type="text" v-model="bill.value | numberFormat">
+                    </div>
+                    <div class="row">
+                             <button @click.prevent="submit" class="btn waves-effect waves-light">
+                                <i class="material-icons right">send</i>Salvar
+                             </button>
+                    </div>
+                </form>
+            </div>   
+        </div>
     `,
     data(){
         return{
@@ -37,10 +53,31 @@ window.billPayCreateComponent = Vue.extend({
         };
     },
     created(){
+
+        $(document).ready(function(){
+
+            $('#name').material_select();
+
+            $('.datepicker').pickadate({
+                monthsFull: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+                monthsShort: [ 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez' ],
+                weekdaysFull: [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+                weekdaysShort: [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+                selectMonths: true,
+                selectYears: 50,
+                today: 'Hoje',
+                clear: 'Limpar',
+                close: 'Fechar',
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+        });
+
         if(this.$route.name == 'bill-pay.update'){
             this.formType = "update";
             this.getBill(this.$route.params.id);
         }
+
     },
     methods:{
         submit(){
@@ -78,12 +115,12 @@ window.billPayCreateComponent = Vue.extend({
             //this.bill = this.$root.$children[0].billsPay[index];
         },
         getDateDue(date_due){
-            let dateDueObject = date_due;
-            if(!(dateDueObject instanceof Date)){
-                dateDueObject = new Date(dateDueObject.split('/').reverse().join('-') + "T03:00:00");
-            }
-            return dateDueObject.toISOString().split('T')[0];
-
+            //let dateDueObject = date_due;
+            //if(!(dateDueObject instanceof Date)){
+            //    dateDueObject = new Date(dateDueObject.split('/').reverse().join('-') + "T03:00:00");
+           // }
+            //return dateDueObject.toISOString().split('T')[0];
+            return date_due;
         }
     }
 });

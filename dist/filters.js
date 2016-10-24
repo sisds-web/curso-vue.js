@@ -17,7 +17,7 @@ Vue.filter('nContas', function (value) {
     if (value == 0) {
         return "Nenhuma conta a pagar.";
     } else if (value > 0) {
-        return "Existem " + value + " contas a serem pagas.";
+        return value + " Contas em aberto.";
     } else {
         return "Nenhuma conta cadastrada.";
     }
@@ -27,7 +27,7 @@ Vue.filter('nReceive', function (value) {
     if (value == 0) {
         return "Nenhuma conta a receber.";
     } else if (value > 0) {
-        return "Existem " + value + " contas a receber.";
+        return value + " Contas a receber.";
     } else {
         return "Nenhuma recebimento cadastrado.";
     }

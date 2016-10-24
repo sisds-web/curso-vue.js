@@ -3,7 +3,7 @@
 var nomes = ['Conta de luz', 'Conta de água', 'Conta de telefone', 'Supermercado', 'Cartão de crédito', 'Empréstimo', 'Gasolina'];
 
 window.billPayCreateComponent = Vue.extend({
-    template: '\n        <form name="" action="">\n            <!-- USANDO O TWO-WEY DATA BIND ATRAVES DA DIRETIVA "v-model" O DADOS \xC9 ALTERADO DE FORMA BILATERAL -->\n            <label>Vencimento</label><br>\n            <input type="text" v-model="bill.date_due | dateFormat"><br>\n            <label>Conta</label><br>\n            <select name="" id="" v-model="bill.name">\n                <!-- USANDO O PROPERT BINDING ":value" PARA LIGAR MEU DADO AO MODEL -->\n                <option v-for="o in names" :value="o">{{ o }}</option>\n            </select><br>\n            <label>Valor</label><br>\n            <input type="text" v-model="bill.value | numberFormat"><br><br>\n            <button @click.prevent="submit">OK</button>\n        </form>\n    ',
+    template: '\n        <div class="container">\n            <div class="card-panel">\n                 <form name="" action="">\n                   \n                    <div class="row">\n                          <label>Vencimento</label>\n                          <input type="text" class="datepicker" v-model="bill.date_due | dateFormat">\n                    </div>\n                    <div class="row">\n     \n                            <label>Conta</label>\n                            <select id="name" v-model="bill.name" class="browser-default">\n                                <option valuue="" disabled selected>Informe uma conta</option>\n                                <option v-for="o in names" :value="o">{{ o }}</option>\n                            </select>\n\n                    </div>\n                    <div class="row">\n                            <label>Valor</label>\n                            <input placeholder="0.00" type="text" v-model="bill.value | numberFormat">\n                    </div>\n                    <div class="row">\n                             <button @click.prevent="submit" class="btn waves-effect waves-light">\n                                <i class="material-icons right">send</i>Salvar\n                             </button>\n                    </div>\n                </form>\n            </div>   \n        </div>\n    ',
     data: function data() {
         return {
             formType: 'insert',
@@ -17,6 +17,26 @@ window.billPayCreateComponent = Vue.extend({
         };
     },
     created: function created() {
+
+        $(document).ready(function () {
+
+            $('#name').material_select();
+
+            $('.datepicker').pickadate({
+                monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthsShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+                weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                weekdaysShort: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                selectMonths: true,
+                selectYears: 50,
+                today: 'Hoje',
+                clear: 'Limpar',
+                close: 'Fechar',
+                format: 'dd/mm/yyyy',
+                formatSubmit: 'yyyy-mm-dd'
+            });
+        });
+
         if (this.$route.name == 'bill-pay.update') {
             this.formType = "update";
             this.getBill(this.$route.params.id);
@@ -62,11 +82,12 @@ window.billPayCreateComponent = Vue.extend({
             //this.bill = this.$root.$children[0].billsPay[index];
         },
         getDateDue: function getDateDue(date_due) {
-            var dateDueObject = date_due;
-            if (!(dateDueObject instanceof Date)) {
-                dateDueObject = new Date(dateDueObject.split('/').reverse().join('-') + "T03:00:00");
-            }
-            return dateDueObject.toISOString().split('T')[0];
+            //let dateDueObject = date_due;
+            //if(!(dateDueObject instanceof Date)){
+            //    dateDueObject = new Date(dateDueObject.split('/').reverse().join('-') + "T03:00:00");
+            // }
+            //return dateDueObject.toISOString().split('T')[0];
+            return date_due;
         }
     }
 });

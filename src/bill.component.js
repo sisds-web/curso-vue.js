@@ -1,13 +1,38 @@
 //CRIANDO O COMPONENT MENU
 window.billDash = Vue.extend({
     template:`
-        <div>
-        <h2>Contas a Receber e Recebidas</h2>
-        <span>Total Contas a Resceber: R$ {{totalContasReceber}}</span><br>
-        <span>Total Contas Recebidas: R$ {{totalContasRecebidas}}</span><br><br>
-        <h2>Contas a Pagar e Pagas</h2>
-        <span>Total Contas a Pagar: R$ {{totalContasPagar}}<span><br>
-        <span>Total Contas Pagas: R$ {{totalContasPagas}}<span>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col s6">
+                        <div class="card-panel blue accent-2 white-text">
+                            <h4>Contas a Receber</h4>
+                            <p class="flow-text">Total: R$ {{totalContasReceber | numberFormat 'pt-BR'}}</p>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="card-panel red lighten-2 white-text">
+                            <h4>Contas a Pagar</h4>
+                            <p class="flow-text">Total: R$ {{totalContasPagar | numberFormat 'pt-BR'}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s6">
+                        <div class="card-panel teal accent-3 white-text">
+                            <h4>Contas Recebidas</h4>
+                            <p class="flow-text">Total: R$ {{totalContasRecebidas | numberFormat 'pt-BR'}}</p>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="card-panel orange accent-3 white-text">
+                            <h4>Contas Pagas</h4>
+                            <p class="flow-text">Total: R$ {{totalContasPagas | numberFormat 'pt-BR'}}</p>
+                        </div>    
+                    </div>
+                </div>
+            </div>
         </div>   
     `,
     data(){
@@ -49,27 +74,67 @@ window.billDash = Vue.extend({
 
 window.billComponent = Vue.extend({
     template:`
-        <nav>
-            <ul>
-                <!-- CARREGANDO MENU DINAMICAMENTE COM LAÇO "v-for" -->
-                <li v-for="o in menus">
-                    <!-- USANDO EVENDO NO VUE.JE COM "v-on" -->
-                    <!-- MODIFICANDO EVENTO NO VUE.JE COM "prevent" -->
-                    <!-- PARA SIMPLIFICAR A DECLARAÇÃO DE UM EVENTO NO VUE.JE SUBSTITUIMOS O "v-on" POR UM "@" -->
-                    <a v-link="{name: o.routeName}">{{o.name}}</a>
-                </li>
-            </ul>
-        </nav>
+        <ul v-bind:id='o.id' class='dropdown-content' v-for="o in menusDropdown">
+            <li v-for="item in o.items">
+                 <a v-link="{name: item.routeName}">
+                    {{item.name}}
+                 </a>
+            </li>
+        </ul>
+        <div class="navbar-fixed">
+            <nav class="blue-grey lighten-1">
+                <div class="nav-wrapper">
+                        <a href="#!" class="right hide-on-small-only brand-logo">Code Contas</a>
+                        <a href="#" data-activates="mobile-demo" class="button-collapse">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <ul class="hide-on-med-and-down">
+                            <li v-for="o in menus">
+                                <a v-if="o.dropdownId" class="dropdown-submenu" href="!#" v-bind:data-activates="o.dropdownId">
+                                {{o.name}} <i class="material-icons right">arrow_drop_down</i>
+                                </a>
+                                <a v-else v-link="{name: o.routeName}">{{o.name}}</a>
+                            </li>
+                        </ul>
+                        <ul class="side-nav" id="mobile-demo">
+                            <li v-for="o in menus">
+                                <a v-link="{name: o.routeName}">{{o.name}}</a>
+                            </li>
+                        </ul>
+                </div>
+            </nav>
+        </div>
         <router-view></router-view>
     `,
+    created(){
+        $(document).ready(function(){
+            $(".button-collapse").sideNav();
+            $(".dropdown-submenu").dropdown();
+        });
+    },
     data(){
         return{
             menus:
                 [
-                    {name: "Contas a Pagar", routeName: 'bill-pays'},
-                    {name: "Contas a Receber", routeName: 'bill-receives'},
+                    {name: "Contas a Pagar", routeName: 'bill-pays', dropdownId:'bill-pay'},
+                    {name: "Contas a Receber", routeName: 'bill-receives', dropdownId:'bill-receive'},
                     {name: "DashBoard", routeName: 'dashboard'}
-                ]
+                ],
+            menusDropdown:[
+                {
+                    id:'bill-pay',items:[
+                        {id: 0, name: "Listar Contas", routeName: 'bill-pay.list'},
+                        {id: 1, name: "Nova Conta", routeName: 'bill-pay.create'}
+                    ]
+                },
+                {
+                    id:'bill-receive',items:[
+                        {name: "Listar Contas", routeName: 'bill-receive.list'},
+                        {name: "Nova Conta", routeName: 'bill-receive.create'}
+                    ]
+                }
+            ]
         };
     }
 });
+
