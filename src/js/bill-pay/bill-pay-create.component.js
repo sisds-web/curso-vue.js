@@ -15,26 +15,24 @@ window.billPayCreateComponent = Vue.extend({
                  <form name="" action="">
                    
                     <div class="row">
-                          <label>Vencimento</label>
-                          <input type="text" class="datepicker" v-model="bill.date_due | dateFormat">
+                            <label class="active">Vencimento</label>
+                            <input type="text"  v-model="bill.date_due | dateFormat">
                     </div>
                     <div class="row">
-     
-                            <label>Conta</label>
+                            <label class="active">Conta</label>
                             <select id="name" v-model="bill.name" class="browser-default">
                                 <option valuue="" disabled selected>Informe uma conta</option>
                                 <option v-for="o in names" :value="o">{{ o }}</option>
                             </select>
-
                     </div>
                     <div class="row">
-                            <label>Valor</label>
+                            <label class="active">Valor</label>
                             <input placeholder="0.00" type="text" v-model="bill.value | numberFormat">
                     </div>
                     <div class="row">
-                             <button @click.prevent="submit" class="btn waves-effect waves-light">
+                            <button @click.prevent="submit" class="btn waves-effect waves-light">
                                 <i class="material-icons right">send</i>Salvar
-                             </button>
+                             </button>                         
                     </div>
                 </form>
             </div>   
@@ -97,11 +95,14 @@ window.billPayCreateComponent = Vue.extend({
                     //this.$root.$children[0].billsPay.push(this.bill);
                     //this.$dispatch('new-bill',this.bill);
                     Bill.save({},data).then((response) => {
+                        Materialize.toast('<strong><i class="material-icons left">done</i>Conta cadastrada com sucesso</strong>',4000,'green lighten-3');
                         this.$router.go({name: 'bill-pay.list'});
                     });
+
                 }
             }else{
                 Bill.update({id: this.bill.id},data).then((response) => {
+                    Materialize.toast('<strong><i class="material-icons left">done</i>Conta alterada com sucesso</strong>',4000,'green lighten-3');
                     this.$router.go({name: 'bill-pay.list'});
                 });
             }
@@ -115,10 +116,10 @@ window.billPayCreateComponent = Vue.extend({
             //this.bill = this.$root.$children[0].billsPay[index];
         },
         getDateDue(date_due){
-            //let dateDueObject = date_due;
+            //let dateDueObject = (date_due.length == 10) ? date_due : date_due.substring(0,14);
             //if(!(dateDueObject instanceof Date)){
             //    dateDueObject = new Date(dateDueObject.split('/').reverse().join('-') + "T03:00:00");
-           // }
+            //}
             //return dateDueObject.toISOString().split('T')[0];
             return date_due;
         }

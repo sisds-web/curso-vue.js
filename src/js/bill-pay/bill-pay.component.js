@@ -1,7 +1,4 @@
 window.billPayComponent = Vue.extend({
-    components:{
-        'bill-pay-menu-component': billPayMenuComponent
-    },
     template:`
     <div class="section">
         <div class="container">
