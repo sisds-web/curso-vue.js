@@ -23,7 +23,6 @@ window.billPayListComponent = Vue.extend({
                         </div>
                     </div>
                 </div>
- 
             </div>
         <div class="container">
             <div class="divider"></div>
@@ -112,7 +111,8 @@ window.billPayListComponent = Vue.extend({
                 Bill.delete({id: this.billToDelete.id}).then((response) => {
                     this.bills.$remove(this.billToDelete);
                     this.billToDelete = null;
-                    Materialize.toast('<strong><i class="material-icons left">done</i>Conta excluida com sucesso</strong>',4000,'green lighten-3');
+                    Materialize.toast('<strong><i class="material-icons left">done</i>Conta excluida com sucesso</strong>',4000,
+                        'green lighten-3');
                     Bill.query().then((response) => {
                         this.bills = response.data;
                         this.totPagar=0;

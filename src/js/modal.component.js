@@ -1,7 +1,7 @@
 //CRIANDO O COMPONENT MENU
 window.modalComponent = Vue.extend({
     template:`
-       <div :id="modal.id" class="modal">
+       <div :id="modal.id" class="my-modal">
             <div class="modal-content">
                 <slot name="content"></slot>
             </div>

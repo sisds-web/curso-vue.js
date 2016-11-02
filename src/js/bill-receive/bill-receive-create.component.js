@@ -1,16 +1,30 @@
 //CRIANDO COMPONENT FORMULARIO PARA CADASTRO
 window.billReceiveCreateComponent = Vue.extend({
     template:`
-        <form name="" action="">
-            <!-- USANDO O TWO-WEY DATA BIND ATRAVES DA DIRETIVA "v-model" O DADOS É ALTERADO DE FORMA BILATERAL -->
-            <label>Vencimento</label><br>
-            <input type="text" v-model="receive.date_receipt | dateFormat"><br>
-            <label>Descrição</label><br>
-            <input type="text" v-model="receive.description"><br>
-            <label>Valor</label><br>
-            <input type="text" v-model="receive.value"><br><br>
-            <button @click.prevent="submit">OK</button>
-        </form>
+        <div class="container">
+          <div class="card-panel">
+            <form name="" action="">
+                
+                <div class="row">
+                    <label class="active">Vencimento</label>
+                    <input type="text" v-model="receive.date_receipt | dateFormat">
+                </div>
+                <div class="row">
+                    <label class="active">Descrição</label>
+                   <input type="text" v-model="receive.description">
+                </div>
+                <div class="row">
+                   <label class="active">Valor</label>
+                   <input type="text" v-model="receive.value">
+                </div>
+                <div class="row">
+                    <button @click.prevent="submit" class="btn waves-effect waves-light">
+                        <i class="material-icons right">send</i>OK
+                    </button>
+                </div> 
+            </form>
+          </div>   
+        </div>
     `,
     data(){
         return{
